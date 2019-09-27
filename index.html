@@ -121,6 +121,10 @@
         width: 80px;
       }
 
+      #alertWindow {
+        visibility: hidden;
+      }
+
     </style>
   </head>
 
@@ -133,7 +137,7 @@
           City name</span>
         <i>i</i>
       </header>
-      <table>
+      <table id="tblMain">
         <colgroup>
           <col class="col1">
           <col class="col2">
@@ -197,25 +201,25 @@
         </tbody>
       </table>
       <footer>
-        <button>
+        <button id="sellBtn">
           Sell
         </button>
-        <button>
+        <button id="jetBtn">
           Jet
         </button>
-        <button>
+        <button id="buyBtn">
           Buy
         </button>
       </footer>
 
-      <modal id="alert">
+      <modal id="alertWindow">
         <header><span>Alert</span> </header>
         <div><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" style="display:inline">
             <circle cx="25" cy="25" r="22" stroke="black" stroke-width="3" fill="transparent" />
             <text fill="#000" font-size="45" x="12" y="37" style="font-size:45px">i</text>
 
           </svg>
-          <span>
+          <span id="alertMessage">
             content content
             content
             contentcontent
@@ -238,13 +242,47 @@
     </div>
 
     <script>
-      var alert = document.getElementById("alert");
+      var alertWindow = document.getElementById("alertWindow");
+      var alertMessage = document.getElementById("alertMessage");
       var noBtn = document.getElementById("noBtn");
       var yesBtn = document.getElementById("yesBtn");
+      var sellBtn = document.getElementById("sellBtn");
+      var jetBtn = document.getElementById("jetBtn");
+      var buyBtn = document.getElementById("buyBtn");
+      var tbl = document.getElementById("tblMain");
 
+      var showAlert = function(message) {
+        alertWindow.style.visibility = 'visible';
+        alertMessage.innerHTML = message;
+      }
+
+			//set click handlers
+      if (tbl != null) {
+        for (var i = 0; i < tbl.rows.length-1; i++) {
+        	tbl.rows[i].cells[0].onclick = function() {
+              sell(this);
+            };
+            tbl.rows[i].cells[2].onclick = function() {
+              buy(this);
+            };
+           
+        }
+      }
+
+      function sell(cel) {
+        alert("sell:" + cel.innerHTML);
+      }
+      function buy(cel) {
+        alert("buy"+cel.innerHTML);
+      }
+      sellBtn.onclick = function() {
+        showAlert("Sell me")
+      };
+      buyBtn.onclick = function() {
+        showAlert("Buy me")
+      };
       noBtn.onclick = function() {
-        alert("asd")
-        alert.style.visibility = false;
+        alertWindow.style.visibility = 'hidden';
       };
 
     </script>
