@@ -102,7 +102,7 @@
         margin-bottom: 5px
       }
 
-      modal {
+      #alertWindow {
         height: 150px;
         width: 320px;
         display: flex;
@@ -114,18 +114,27 @@
         flex-direction: column;
       }
 
-      modal>div {
+      #alertWindow>div {
         flex: 1;
         margin: 5px;
       }
 
 
-      modal>footer>button {
+      #alertWindow>footer>button {
         width: 80px;
       }
 
       #alertWindow {
         visibility: hidden;
+      }
+
+      #overley {
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        background: #44556655;
+        height: 100%;
       }
 
     </style>
@@ -215,7 +224,8 @@
         </button>
       </footer>
 
-      <modal id="alertWindow">
+      <div id="overley"></div>
+      <div id="alertWindow">
         <header><span>Alert</span> </header>
         <div><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" style="display:inline">
             <circle cx="25" cy="25" r="22" stroke="black" stroke-width="3" fill="transparent" />
@@ -241,11 +251,13 @@
             YES
           </button>
         </footer>
-      </modal>
+      </div>
     </div>
 
     <script>
       var alertWindow = document.getElementById("alertWindow");
+      var overley = document.getElementById("overley");
+
       var alertMessage = document.getElementById("alertMessage");
       var noBtn = document.getElementById("noBtn");
       var yesBtn = document.getElementById("yesBtn");
@@ -256,7 +268,12 @@
 
       var showAlert = function(message) {
         alertWindow.style.visibility = 'visible';
+        overley.style.visibility = 'visible';
         alertMessage.innerHTML = message;
+      }
+      var hideAlert = function() {
+        alertWindow.style.visibility = 'hidden';
+        overley.style.visibility = 'hidden';
       }
 
       //set click handlers
@@ -286,7 +303,7 @@
         showAlert("Buy me")
       };
       noBtn.onclick = function() {
-        alertWindow.style.visibility = 'hidden';
+        hideAlert();
       };
 
     </script>
