@@ -1,40 +1,122 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <title>DopeWars game</title>
     <meta charset="UTF-8" />
     <link rel="manifest" href="manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <style>
       * {
         font-family: monospace;
-        font-size: 15px
+        font-size: 15px;
       }
 
+      /* navigation */
 
-      body>div {
+      nav {
+        background-color: #fff;
+        border: 2px solid black;
+        border-radius: 4px;
+        display: block;
+        overflow: hidden;
+        width: 300px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-weight: bold;
+        margin-bottom: 3px;
+      }
+
+      nav ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      nav ul li {
+        display: inline-block;
+        list-style-type: none;
+      }
+
+      nav > ul > li > a {
+        display: block;
+        line-height: 26px;
+        padding-left: 5px;
+        padding-right: 5px;
+        text-decoration: none;
+        color: black;
+      }
+
+      nav > ul > li:hover {
+        background-color: darkblue;
+
+        /* color: black; */
+      }
+
+      nav > ul > li:hover > a {
+        color: white;
+      }
+
+      nav > ul > li > div {
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 0 0 4px 4px;
+        box-shadow: 0 2px 2px -1px black;
+        display: none;
+        margin: 0px;
+        position: absolute;
+        z-index: 100;
+      }
+
+      nav > ul > li:hover > div {
+        display: block;
+      }
+
+      nav > ul > li > div ul > li {
+        display: block;
+      }
+
+      nav > ul > li > div ul > li > a {
+        display: block;
+        padding: 5px 5px;
+        text-decoration: none;
+        color: #000;
+      }
+
+      nav > ul > li > div ul > li:hover > a {
+        background-color: darkblue;
+        color: white;
+      }
+
+      /* main dialog */
+
+      body > div {
         position: relative;
         width: 320px;
-        border: 2px solid #000
+        height: 400px;
+        border: 2px solid #000;
+
+        display: flex;
+        flex-flow: column;
       }
 
       .col1 {
-        width: 25px
+        width: 25px;
       }
 
       .col2,
       .col3,
       .col4 {
-        width: 95px
+        width: 95px;
       }
 
-      body>div>table {
+      body > div > table {
         border-collapse: collapse;
-        margin: 10px 5px 0
+        margin: 10px 5px 0;
       }
 
       header {
@@ -46,66 +128,52 @@
         display: flex;
       }
 
-
-      /*  header>i {
-        border: 0 solid #fff;
-        border-radius: 50%;
-        height: 16px;
-        width: 16px;
-        text-align: center;
-        background-color: #fff;
-        display: inline-block;
-        margin-right: 5px;
-        color: #000;
-        font-style: normal
-      }
-       */
-      header>img {
+      header > img {
         height: 15px;
         width: 15px;
         margin-right: 5px;
       }
 
-      header>span {
+      header > span {
         flex: 1;
-        text-align: center
+        text-align: center;
       }
 
       tr {
-        height: 27px
+        height: 27px;
       }
 
       td {
         padding-left: 5px;
-        padding-right: 5px
+        padding-right: 5px;
       }
 
-      tr:nth-child(odd)>td:nth-child(4) {
+      tr:nth-child(odd) > td:nth-child(4) {
         font-weight: 700;
-        text-align: center
+        text-align: center;
       }
 
-      tr:last-child>td:nth-child(2) {
+      tr:last-child > td:nth-child(2) {
         font-weight: 700;
-        text-align: center
+        text-align: center;
       }
 
       button {
         margin-left: 5px;
         border-radius: 8px;
-        outline: none
+        outline: none;
       }
 
-      body>div>footer>button {
+      body > div > footer > button {
         width: 50px;
       }
 
-      tr:not(:last-child)>td:not(:nth-child(4)) {
-        border: 1px dashed #000
+      tr:not(:last-child) > td:not(:nth-child(4)) {
+        border: 1px dashed #000;
       }
 
       footer {
-        margin-bottom: 5px
+        margin-bottom: 5px;
       }
 
       #alertWindow {
@@ -120,13 +188,12 @@
         flex-direction: column;
       }
 
-      #alertWindow>div {
+      #alertWindow > div {
         flex: 1;
         margin: 5px;
       }
 
-
-      #alertWindow>footer>button {
+      #alertWindow > footer > button {
         width: 80px;
       }
 
@@ -134,7 +201,7 @@
         visibility: hidden;
       }
 
-      #overley {
+      #overlay {
         visibility: hidden;
         position: absolute;
         top: 0;
@@ -143,25 +210,86 @@
         height: 100%;
       }
 
+      /* info screens */
+      #tipsWindow {
+        display: none;
+      }
+      section {
+        display: none;
+        margin: 5px;
+        flex: 1;
+        overflow: scroll;
+      }
     </style>
   </head>
 
   <body>
-    <div>
-
-
+    <!-- navigation -->
+    <nav>
+      <ul>
+        <li>
+          <a>Game</a>
+          <div>
+            <ul>
+              <li><a href="products.html#chair">New Game</a></li>
+              <li><a href="products.html#table">View High Scores</a></li>
+              <li><a href="cooker.html">Verify High Scores</a></li>
+              <li><a href="cooker.html">Clear High Scores</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a>Help</a>
+          <div>
+            <ul>
+              <li><a href="#" onclick="openTips(1)">Game Info</a></li>
+              <li><a href="#" onclick="openTips(0)">Buying/Selling</a></li>
+              <li><a href="#" onclick="openTips(2)">Travel</a></li>
+              <li><a href="#" onclick="openTips(3)">Loan Shark</a></li>
+              <li><a href="#" onclick="openTips(4)">Bank</a></li>
+              <li><a href="#" onclick="openTips(5)">Police</a></li>
+              <li><a href="#" onclick="openTips(6)">High Scores</a></li>
+              <li>
+                <a href="cooker.html" class="menuSeporator">Intro Screen</a>
+              </li>
+              <li>
+                  <a href="cooker.html" >Contacts Info</a>
+                </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a>Cheats</a>
+          <div>
+            <ul>
+              <li><a href="products.html#chair">Free Money</a></li>
+              <li><a href="products.html#table">Free Gun</a></li>
+              <li>
+                <a href="cooker.html" class="menuSeporator">No More Cops</a>
+              </li>
+              <li><a href="cooker.html">No More Debt</a></li>
+              <li><a href="cooker.html" class="menuSeporator">Huge Coat</a></li>
+              <li><a href="cooker.html">Year-Long Game</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <!-- main screen -->
+    <div id="mainWindow">
       <header>
-        <span>
-          City name</span>
-        <!--         <i>i</i> -->
-        <img src='data:image/bmp;base64,Qk1wAAAAAAAAAD4AAAAoAAAADAAAAAwAAAABAAEAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////AAAAAACAEAAAH4AAADDAAAB54AAAeeAAAHngAABx4AAAf+AAAHngAAA5wAAAH4AAAIAQAAAAAA==' />
+        <span> City name</span>
+        <img
+          onclick="openTips(0)"
+          src="data:image/bmp;base64,Qk1wAAAAAAAAAD4AAAAoAAAADAAAAAwAAAABAAEAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////AAAAAACAEAAAH4AAADDAAAB54AAAeeAAAHngAABx4AAAf+AAAHngAAA5wAAAH4AAAIAQAAAAAA=="
+        />
       </header>
       <table id="tblMain">
         <colgroup>
-          <col class="col1">
-          <col class="col2">
-          <col class="col3">
-          <col class="col4">
+          <col class="col1" />
+          <col class="col2" />
+          <col class="col3" />
+          <col class="col4" />
         </colgroup>
         <tbody>
           <tr>
@@ -213,7 +341,7 @@
             <td>26/140</td>
           </tr>
           <tr>
-            <td colspan=3>Time remaining: XXdays</td>
+            <td colspan="3">Time remaining: XXdays</td>
 
             <td>Gun</td>
           </tr>
@@ -231,22 +359,36 @@
         </button>
       </footer>
 
-      <div id="overley"></div>
+      <div id="overlay"></div>
       <div id="alertWindow">
-        <header><span>Alert</span> </header>
-        <div><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" style="display:inline">
-            <circle cx="25" cy="25" r="22" stroke="black" stroke-width="3" fill="transparent" />
-            <text fill="#000" font-size="45" x="12" y="37" style="font-size:45px">i</text>
-
+        <header><span>Alert</span></header>
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="50"
+            height="50"
+            style="display:inline"
+          >
+            <circle
+              cx="25"
+              cy="25"
+              r="22"
+              stroke="black"
+              stroke-width="3"
+              fill="transparent"
+            />
+            <text
+              fill="#000"
+              font-size="45"
+              x="12"
+              y="37"
+              style="font-size:45px"
+            >
+              i
+            </text>
           </svg>
           <span id="alertMessage">
-            content content
-            content
-            contentcontent
-            content
-            content
-            content
-
+            content content content contentcontent content content content
             content
           </span>
         </div>
@@ -260,28 +402,83 @@
         </footer>
       </div>
     </div>
-    <img src='data:image/bmp;base64,Qk1IBwAAAAAAAD4AAAAoAAAAQwAAAJYAAAABAAEAAAAAAAAAAAAQFwAAEBcAAAAAAAAAAAAA////AAAAAAD///8Af////+AAAAD///gOP////+AAAAD//+H/vAf//+AAAAD//gfggAP//+AAAAD//B8AB/n//+AAAAD/+Hw/P/3//+AAAAD/+fn+fAH//+AAAAD/8/P44PH//+AAAAD/8+fjx/P//+AAAAD/8AfPH8f//+AAAAD/8/AXfx///+AAAAD/9/+AfH///+AAAAD/9/+fAf///+AAAAD/9/+f+f///+AAAAD/9/+f+f///+AAAAD/9/+/+f///+AAAAD/9/+/+f///+AAAAD/9/+/+f///+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/8D8////+AAAAD/9/AAAP///+AAAAD/9gP/9v///+AAAAD/8P///v///+AAAAD/x////v//8AAAAAD/P////v/8AMAAAAD/f////P/g/8AAAAD/f////P4P/8AAAAD/f////AD//4AAAAD/P////D///4AAAAD/P////f///4AAAAD/P////f///4AAAAD/P////f///4AAAAD/v////f///4AAAAD/v////f///4AAAAD/v///+f///6AAAAD/v///+f///6AAAAD/P///+f///6AAAAD/P///+f///6AAAAD/v///+////6AAAAD/P///+////6AAAAD/P///+////6AAAAD/P//5+///D6AAAAD/P//h8//OZ6AAAAD/P//N8+OGA6AAAAD/P//t88EAc6AAAAD/P//t84B486AAAAD/P//s85x486AAAAD/P//s85x4A6AAAAD/P//m85AAB6AAAAD/P//m84AGB6AAAAD/P//288GGB6AAAAD/P//2c8EDDyAAAAD/P//2c8GH/yAAAAD/P//zc//HDyAAAAD/P//zd8GCByAAAAD/N//7d5kA9yAAAAD/O//7d4A49yAAAAD/Of/7Nzx49yAAAAD/MP/7Nzx4ByAAAAD/Nn/7NzwADyAAAAD/J3/7NwCCDyAAAAD/Lz/7N4GCDyAAAAD/D7/7N4GCDyAAAAD/H5/7N4HH/yAAAAD/P9/7d/f/HyAAAAD/P8/zd/+GTyAAAAD+f+/2d8EyByAAAAD+/+fmc8kAZyAAAAD8/+fu88B45yAAAAD9/8fM85x452AAAAD5/5ed85x4B2AAAADz/zg585wAD2AAAAD3/ntz84ACD2AAAADn/uNn84ECD2AAAADv/ItP88ED/2AAAADf+Hk/88H/DWAAAACf+fk/9//+ZSAAAAC/88B/9+OGBSAAAAA/9h3/98EA8CAAAAB/8P//94B48iAAAAB/4///95x48iAAAAB/5///95x4AiAAAAB/7///95QABiAAAAB/7///94EGBiAAAAB/5///98EGBCAAAAB/9///88EDDCAAAAA/9///88GH/CAAAAA/8///8+f/+CAAAAC/+///8///+IAAAAC/+/wH8///9kAAAAC/+fhx9///4QAAAAC//fv99///zIAAAACf/Pv99///xoAAAACf/Pv99///kyAAAADf/vv99///mSAAAADf/nv95//+DGAAAADf/nv95//4ImAAAADP/3mN7//g2OAAAADP/3AB7/8Rn+AAAADv/3eJz/xnP+AAAADv/zfZz/+Of+AAAADv/zH5x/4+/+AAAADn/zADh/z9/+AAAADn/3//p/v5/+AAAAD3/3//p//z/+AAAADz/n//J//n/+AAAAD7/v//Z//v/+AAAAD5/P//b//P/+AAAAD8Cf/+T/+f/+AAAAD8Y//+z/+//+AAAAD+cf/+n/8//+AAAAD/HP/8v/9//+AAAAD/hn/8f/5//+AAAAD/45/8//7//+AAAAD/+M/8//z//+AAAAD//gn9//3//+AAAAD//wf4P/n//+AAAAD//4eBnAP//+AAAAD//58P3f///+AAAAD//78/nP///+AAAAD//z+/nv///+AAAAD//3+4H3///+AAAAD//n+xnz///+AAAAD//v8gH7///+AAAAD//PgADn///+AAAAD//cPADP///+AAAAD/+R/zwf///+AAAAD/+D+Dh////+AAAAD/8CcBj////+AAAAD/8kcBB////+AAAAD/5kQAAH///+AAAAD/8AAH/n///+AAAAD//gH//P///+AAAAD//B4AAf///+AAAAD/+EAAB////+AAAAD/+AAAT////+AAAAD/8AD/3////+AAAAD/97//3////+AAAAD/8D//n////+AAAAD//L//v////+AAAAD//5//P////+AAAAD//5/+f////+AAAAD//9/g/////+AAAAD//8AH/////+AAAAAAAA==' />
-    <script>
-      var alertWindow = document.getElementById("alertWindow");
-      var overley = document.getElementById("overley");
 
-      var alertMessage = document.getElementById("alertMessage");
-      var noBtn = document.getElementById("noBtn");
-      var yesBtn = document.getElementById("yesBtn");
-      var sellBtn = document.getElementById("sellBtn");
-      var jetBtn = document.getElementById("jetBtn");
-      var buyBtn = document.getElementById("buyBtn");
-      var tbl = document.getElementById("tblMain");
+    <!-- tips screen -->
+    <div id="tipsWindow">
+      <header>
+        <span>Tips</span>
+        <img
+          onclick="closeTips()"
+          src="data:image/bmp;base64,Qk1wAAAAAAAAAD4AAAAoAAAADAAAAAwAAAABAAEAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////AAAAAACAEAAAH4AAADDAAAB54AAAeeAAAHngAABx4AAAf+AAAHngAAA5wAAAH4AAAIAQAAAAAA=="
+        />
+      </header>
+      <section id="tip1">
+        <p>Tap the entries in the prices column (3rd column) to buy drugs.</p>
+        <p>
+          Tap the entries in the quantity column (1st column) to sell drugs.
+        </p>
+        <p>
+          Your cash, debt, savings, and coat pockets are displayed on the right.
+          You have a limited amount of space in your coat, but you may have a
+          chance to buy a bigger coat during the game.
+        </p>
+        <p>
+          Drugs with a price of None are not commodities at this location, and
+          therefore cannot be bought or sold.
+        </p>
+        <p>
+          Your remaining time is below the drug table. When that time reaches 0,
+          the game is over.
+        </p>
+      </section>
+      <section id="tip2">
+          <p>DopeWars is a game where the objective is to get rich through buying and  
+          selling drugs.  There are 8 types of drugs and 6 locations; at each  
+          location, 5 to 7 drugs will be commodities.</p> 
+          <p>At the beginning of the game, you have a small amount of cash, an empty  
+          savings account, and a sizeable debt to a loan shark.  In addition to  
+          money troubles, Officer Hardass patrols the streets, hell-bent on  
+          taking you down.</p> 
+          <p>For additional help, tap the Info button in dialogs, or read the  
+          README file that came with this program.</p>
+          <p></p>This program is distributed free of charge with source code available.</p> 
+          <p>Cheat Codes:</p> 
+          <p>To activate cheat codes, use the Cheat menu</p>
+          <p>Note that if any of these cheats are activated, you will not be able to  
+          save a high score for that game.</p>
+      </section>
+      <footer>
+        <button onclick="closeTips()">
+          Done
+        </button>
+      </footer>
+    </div>
+
+    <img
+      src="data:image/bmp;base64,Qk1IBwAAAAAAAD4AAAAoAAAAQwAAAJYAAAABAAEAAAAAAAAAAAAQFwAAEBcAAAAAAAAAAAAA////AAAAAAD///8Af////+AAAAD///gOP////+AAAAD//+H/vAf//+AAAAD//gfggAP//+AAAAD//B8AB/n//+AAAAD/+Hw/P/3//+AAAAD/+fn+fAH//+AAAAD/8/P44PH//+AAAAD/8+fjx/P//+AAAAD/8AfPH8f//+AAAAD/8/AXfx///+AAAAD/9/+AfH///+AAAAD/9/+fAf///+AAAAD/9/+f+f///+AAAAD/9/+f+f///+AAAAD/9/+/+f///+AAAAD/9/+/+f///+AAAAD/9/+/+f///+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/8D8////+AAAAD/9/AAAP///+AAAAD/9gP/9v///+AAAAD/8P///v///+AAAAD/x////v//8AAAAAD/P////v/8AMAAAAD/f////P/g/8AAAAD/f////P4P/8AAAAD/f////AD//4AAAAD/P////D///4AAAAD/P////f///4AAAAD/P////f///4AAAAD/P////f///4AAAAD/v////f///4AAAAD/v////f///4AAAAD/v///+f///6AAAAD/v///+f///6AAAAD/P///+f///6AAAAD/P///+f///6AAAAD/v///+////6AAAAD/P///+////6AAAAD/P///+////6AAAAD/P//5+///D6AAAAD/P//h8//OZ6AAAAD/P//N8+OGA6AAAAD/P//t88EAc6AAAAD/P//t84B486AAAAD/P//s85x486AAAAD/P//s85x4A6AAAAD/P//m85AAB6AAAAD/P//m84AGB6AAAAD/P//288GGB6AAAAD/P//2c8EDDyAAAAD/P//2c8GH/yAAAAD/P//zc//HDyAAAAD/P//zd8GCByAAAAD/N//7d5kA9yAAAAD/O//7d4A49yAAAAD/Of/7Nzx49yAAAAD/MP/7Nzx4ByAAAAD/Nn/7NzwADyAAAAD/J3/7NwCCDyAAAAD/Lz/7N4GCDyAAAAD/D7/7N4GCDyAAAAD/H5/7N4HH/yAAAAD/P9/7d/f/HyAAAAD/P8/zd/+GTyAAAAD+f+/2d8EyByAAAAD+/+fmc8kAZyAAAAD8/+fu88B45yAAAAD9/8fM85x452AAAAD5/5ed85x4B2AAAADz/zg585wAD2AAAAD3/ntz84ACD2AAAADn/uNn84ECD2AAAADv/ItP88ED/2AAAADf+Hk/88H/DWAAAACf+fk/9//+ZSAAAAC/88B/9+OGBSAAAAA/9h3/98EA8CAAAAB/8P//94B48iAAAAB/4///95x48iAAAAB/5///95x4AiAAAAB/7///95QABiAAAAB/7///94EGBiAAAAB/5///98EGBCAAAAB/9///88EDDCAAAAA/9///88GH/CAAAAA/8///8+f/+CAAAAC/+///8///+IAAAAC/+/wH8///9kAAAAC/+fhx9///4QAAAAC//fv99///zIAAAACf/Pv99///xoAAAACf/Pv99///kyAAAADf/vv99///mSAAAADf/nv95//+DGAAAADf/nv95//4ImAAAADP/3mN7//g2OAAAADP/3AB7/8Rn+AAAADv/3eJz/xnP+AAAADv/zfZz/+Of+AAAADv/zH5x/4+/+AAAADn/zADh/z9/+AAAADn/3//p/v5/+AAAAD3/3//p//z/+AAAADz/n//J//n/+AAAAD7/v//Z//v/+AAAAD5/P//b//P/+AAAAD8Cf/+T/+f/+AAAAD8Y//+z/+//+AAAAD+cf/+n/8//+AAAAD/HP/8v/9//+AAAAD/hn/8f/5//+AAAAD/45/8//7//+AAAAD/+M/8//z//+AAAAD//gn9//3//+AAAAD//wf4P/n//+AAAAD//4eBnAP//+AAAAD//58P3f///+AAAAD//78/nP///+AAAAD//z+/nv///+AAAAD//3+4H3///+AAAAD//n+xnz///+AAAAD//v8gH7///+AAAAD//PgADn///+AAAAD//cPADP///+AAAAD/+R/zwf///+AAAAD/+D+Dh////+AAAAD/8CcBj////+AAAAD/8kcBB////+AAAAD/5kQAAH///+AAAAD/8AAH/n///+AAAAD//gH//P///+AAAAD//B4AAf///+AAAAD/+EAAB////+AAAAD/+AAAT////+AAAAD/8AD/3////+AAAAD/97//3////+AAAAD/8D//n////+AAAAD//L//v////+AAAAD//5//P////+AAAAD//5/+f////+AAAAD//9/g/////+AAAAD//8AH/////+AAAAAAAA=="
+    />
+    <script>
+      var mainWindow = document.getElementById('mainWindow');
+      var alertWindow = document.getElementById('alertWindow');
+      var overlay = document.getElementById('overlay');
+
+      var alertMessage = document.getElementById('alertMessage');
+      var noBtn = document.getElementById('noBtn');
+      var yesBtn = document.getElementById('yesBtn');
+      var sellBtn = document.getElementById('sellBtn');
+      var jetBtn = document.getElementById('jetBtn');
+      var buyBtn = document.getElementById('buyBtn');
+      var tbl = document.getElementById('tblMain');
 
       var showAlert = function(message) {
         alertWindow.style.visibility = 'visible';
-        overley.style.visibility = 'visible';
+        overlay.style.visibility = 'visible';
         alertMessage.innerHTML = message;
-      }
+      };
       var hideAlert = function() {
         alertWindow.style.visibility = 'hidden';
-        overley.style.visibility = 'hidden';
-      }
+        overlay.style.visibility = 'hidden';
+      };
 
       //set click handlers
       if (tbl != null) {
@@ -292,30 +489,46 @@
           tbl.rows[i].cells[2].onclick = function() {
             buy(this);
           };
-
         }
       }
 
       function sell(cel) {
-        alert("sell:" + cel.innerHTML);
+        alert('sell:' + cel.innerHTML);
       }
 
       function buy(cel) {
-        alert("buy" + cel.innerHTML);
+        alert('buy' + cel.innerHTML);
       }
       sellBtn.onclick = function() {
-        showAlert("Sell me")
+        showAlert('Sell me');
       };
       buyBtn.onclick = function() {
-        showAlert("Buy me")
+        showAlert('Buy me');
       };
       noBtn.onclick = function() {
         hideAlert();
       };
 
+      function openTips(tip) {
+        mainWindow.style.display = 'none';
+        var tipsWindow = document.getElementById('tipsWindow');
+        tipsWindow.style.display = 'flex';
+        var content = tipsWindow.getElementsByTagName('section')
+        hideTipsContent(content);
+        content[tip].style.display = 'block';
+      }
+
+      function hideTipsContent(content){
+        for(var i=0;i<content.length;i++){
+          content[i].style.display = 'none';
+        }
+      }
+
+      function closeTips() {
+        mainWindow.style.display = 'block';
+        var tipsWindow = document.getElementById('tipsWindow');
+        tipsWindow.style.display = 'none';
+      }
     </script>
-
   </body>
-
-
 </html>
