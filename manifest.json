@@ -1,0 +1,13 @@
+{
+  "name": "DopeWars game",
+  "short_name": "DopeWars game like on Palm",
+  "theme_color": "#0098f3",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "Scope": "/DopeWarsGame/",
+  "start_url": "/DopeWarsGame/",
+  "description": "DopeWars Game",
+  "icons": [],
+  "splash_pages": null
+}
