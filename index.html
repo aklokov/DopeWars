@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <title>Memory card game</title>
     <meta charset="UTF-8" />
@@ -7,236 +8,248 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       * {
-  font-family: monospace;
-  font-size: 15px
-}
+        font-family: monospace;
+        font-size: 15px
+      }
 
 
-body>div {
-  position: relative;
-  width: 320px;
-  border: 2px solid #000
-}
+      body>div {
+        position: relative;
+        width: 320px;
+        border: 2px solid #000
+      }
 
-.col1 {
-  width: 25px
-}
+      .col1 {
+        width: 25px
+      }
 
-.col2,
-.col3,
-.col4 {
-  width: 95px
-}
+      .col2,
+      .col3,
+      .col4 {
+        width: 95px
+      }
 
-body>div>table {
-  border-collapse: collapse;
-  margin: 10px 5px 0
-}
+      body>div>table {
+        border-collapse: collapse;
+        margin: 10px 5px 0
+      }
 
-header {
-  color: #fff;
-  font-weight: 700;
-  background-color: #000;
-  height: 28px;
-  align-items: center;
-  display: flex;
-}
+      header {
+        color: #fff;
+        font-weight: 700;
+        background-color: #000;
+        height: 28px;
+        align-items: center;
+        display: flex;
+      }
 
 
-header>i {
-  border: 0 solid #fff;
-  border-radius: 50%;
-  height: 16px;
-  width: 16px;
-  text-align: center;
-  background-color: #fff;
-  display: inline-block;
-  margin-right: 5px;
-  color: #000;
-  font-style: normal
-}
+      header>i {
+        border: 0 solid #fff;
+        border-radius: 50%;
+        height: 16px;
+        width: 16px;
+        text-align: center;
+        background-color: #fff;
+        display: inline-block;
+        margin-right: 5px;
+        color: #000;
+        font-style: normal
+      }
 
-header>span {
-  flex: 1;
-  text-align: center
-}
+      header>span {
+        flex: 1;
+        text-align: center
+      }
 
-tr {
-  height: 27px
-}
+      tr {
+        height: 27px
+      }
 
-td {
-  padding-left: 5px;
-  padding-right: 5px
-}
+      td {
+        padding-left: 5px;
+        padding-right: 5px
+      }
 
-tr:nth-child(odd)>td:nth-child(4) {
-  font-weight: 700;
-  text-align: center
-}
+      tr:nth-child(odd)>td:nth-child(4) {
+        font-weight: 700;
+        text-align: center
+      }
 
-tr:last-child>td:nth-child(2) {
-  font-weight: 700;
-  text-align: center
-}
+      tr:last-child>td:nth-child(2) {
+        font-weight: 700;
+        text-align: center
+      }
 
-button{
-   margin-left: 5px;
-  border-radius: 8px;
-  outline: none
-}
+      button {
+        margin-left: 5px;
+        border-radius: 8px;
+        outline: none
+      }
 
-body>div>footer>button {
-  width: 50px;
-}
+      body>div>footer>button {
+        width: 50px;
+      }
 
-tr:not(:last-child)>td:not(:nth-child(4)) {
-  border: 1px dashed #000
-}
+      tr:not(:last-child)>td:not(:nth-child(4)) {
+        border: 1px dashed #000
+      }
 
-footer {
-  margin-bottom: 5px
-}
+      footer {
+        margin-bottom: 5px
+      }
 
-modal {
-  height: 130px;
-  width: 320px;
-  display: flex;
-  position: absolute;
-  bottom: 0;
-  background: white;
-  border: 0px solid #000;
-  border-top-width: 2px;
-  flex-direction: column;
-}
+      modal {
+        height: 150px;
+        width: 320px;
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        background: white;
+        border: 0px solid #000;
+        border-top-width: 2px;
+        flex-direction: column;
+      }
 
-modal>div {
-  flex: 1;
-  margin:5px;
-}
- 
+      modal>div {
+        flex: 1;
+        margin: 5px;
+      }
 
-modal>footer>button {
-  width: 80px;
-}
+
+      modal>footer>button {
+        width: 80px;
+      }
 
     </style>
   </head>
-      
-      <body>
-  <div>
+
+  <body>
+    <div>
 
 
-    <header>
-      <span>
-        City name</span>
-      <i>i</i>
-    </header>
-    <table>
-      <colgroup>
-        <col class="col1">
-        <col class="col2">
-        <col class="col3">
-        <col class="col4">
-      </colgroup>
-      <tbody>
-        <tr>
-          <td>19</td>
-          <td>Acid</td>
-          <td>$123</td>
-          <td>Cash</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Cocaine</td>
-          <td>$43242</td>
-          <td>$324</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Ecstasy</td>
-          <td>$23</td>
-          <td>Debt</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>PCP</td>
-          <td>$343</td>
-          <td>$65</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>Heroin</td>
-          <td>$343</td>
-          <td>Savings</td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>Weed</td>
-          <td>None</td>
-          <td>$342223</td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>Shrooms</td>
-          <td>$1000</td>
-          <td>Coat</td>
-        </tr>
-        <tr>
-          <td>8</td>
-          <td>Speed</td>
-          <td>$54</td>
-          <td>26/140</td>
-        </tr>
-        <tr>
-          <td colspan=3>Time remaining: XXdays</td>
+      <header>
+        <span>
+          City name</span>
+        <i>i</i>
+      </header>
+      <table>
+        <colgroup>
+          <col class="col1">
+          <col class="col2">
+          <col class="col3">
+          <col class="col4">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td>19</td>
+            <td>Acid</td>
+            <td>$123</td>
+            <td>Cash</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Cocaine</td>
+            <td>$43242</td>
+            <td>$324</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Ecstasy</td>
+            <td>$23</td>
+            <td>Debt</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>PCP</td>
+            <td>$343</td>
+            <td>$65</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Heroin</td>
+            <td>$343</td>
+            <td>Savings</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Weed</td>
+            <td>None</td>
+            <td>$342223</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Shrooms</td>
+            <td>$1000</td>
+            <td>Coat</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Speed</td>
+            <td>$54</td>
+            <td>26/140</td>
+          </tr>
+          <tr>
+            <td colspan=3>Time remaining: XXdays</td>
 
-          <td>Gun</td>
-        </tr>
-      </tbody>
-    </table>
-    <footer>
-      <button>
-        Sell
-      </button>
-      <button>
-        Jet
-      </button>
-      <button>
-        Buy
-      </button>
-    </footer>
-
-    <modal>
-      <header><span>Alert</span> </header>
-      <div style="background:red;color:blue;"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" style="display:inline">
-          <circle cx="25" cy="25" r="22" stroke="black" stroke-width="3" fill="transparent" />
-          <text fill="#ffffff" font-size="45"   x="12" y="37" style="font-size:45px">i</text>
-           
-        </svg>
-
-        content content
-        content
-        contentcontent
-        content
-        content
-        content
-
-        content
-      </div>
+            <td>Gun</td>
+          </tr>
+        </tbody>
+      </table>
       <footer>
         <button>
-          NO
+          Sell
         </button>
         <button>
-          YES
+          Jet
+        </button>
+        <button>
+          Buy
         </button>
       </footer>
-    </modal>
-  </div>
+
+      <modal id="alert">
+        <header><span>Alert</span> </header>
+        <div><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" style="display:inline">
+            <circle cx="25" cy="25" r="22" stroke="black" stroke-width="3" fill="transparent" />
+            <text fill="#000" font-size="45" x="12" y="37" style="font-size:45px">i</text>
+
+          </svg>
+          <span>
+            content content
+            content
+            contentcontent
+            content
+            content
+            content
+
+            content
+          </span>
+        </div>
+        <footer>
+          <button id="noBtn">
+            NO
+          </button>
+          <button id="yesBtn">
+            YES
+          </button>
+        </footer>
+      </modal>
+    </div>
+
+    <script>
+      var alert = document.getElementById("alert");
+      var noBtn = document.getElementById("noBtn");
+      var yesBtn = document.getElementById("yesBtn");
+
+      noBtn.onclick = function() {
+        alert("asd")
+        alert.style.visibility = false;
+      };
+
+    </script>
+
+  </body>
 
 
-</body>
-
-
-  </html>
+</html>
