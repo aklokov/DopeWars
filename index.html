@@ -19,9 +19,24 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <style>
+      @font-face {
+        font-family: 'Palm OS';
+        src: url('https://aklokov.github.io/DopeWars/fonts/palm-os.ttf')
+          format('truetype');
+      }
+
+      @font-face {
+        font-family: 'Palm OS';
+        src: url('https://aklokov.github.io/DopeWars/fonts/palm-os-bold.ttf')
+          format('truetype');
+        font-weight: bold;
+      }
+
       * {
-        font-family: monospace;
-        font-size: 15px;
+        font-family: 'Palm OS', monospace;
+        font-size: 26px;
+        src: url('https://aklokov.github.io/DopeWars/fonts/palm-os.ttf')
+          format('truetype');
       }
 
       body {
@@ -140,6 +155,7 @@
       }
 
       header {
+        width: 100%;
         color: #fff;
         font-weight: 700;
         background-color: #000;
@@ -185,7 +201,7 @@
       }
 
       body > div > footer > button {
-        width: 50px;
+        min-width: 50px;
       }
 
       tr:not(:last-child) > td:not(:nth-child(4)) {
@@ -254,6 +270,21 @@
         flex: 1;
         overflow: scroll;
       }
+
+      #jetWindow {
+        align-items: center;
+      }
+
+      #jetWindow table {
+        width: 50%;
+      }
+      .cityName {
+        font-weight: bold;
+      }
+    </style>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
     </style>
   </head>
 
@@ -623,7 +654,7 @@
           </tr>
         </tbody>
       </table>
-      Current location: <span class="cityName"></span>
+      <p>Current location: <span class="cityName"></span></p>
       <footer>
         <button onclick="openMainWindowBack()">
           Cancel
