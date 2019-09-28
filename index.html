@@ -197,7 +197,13 @@
       button {
         margin-left: 5px;
         border-radius: 8px;
+        border: 2px solid black;
         outline: none;
+      }
+
+      p {
+        margin-top: 15px;
+        margin-bottom: 15px;
       }
 
       body > div > footer > button {
@@ -265,7 +271,6 @@
       }
 
       section {
-        /* display: none; */
         margin: 5px;
         flex: 1;
         overflow: scroll;
@@ -374,7 +379,7 @@
             <td>2</td>
             <td>Cocaine</td>
             <td>$43242</td>
-            <td>$324</td>
+            <td id="cash">$324</td>
           </tr>
           <tr>
             <td>3</td>
@@ -386,7 +391,7 @@
             <td>4</td>
             <td>PCP</td>
             <td>$343</td>
-            <td>$65</td>
+            <td id="debt">$65</td>
           </tr>
           <tr>
             <td>5</td>
@@ -398,7 +403,7 @@
             <td>6</td>
             <td>Weed</td>
             <td>None</td>
-            <td>$342223</td>
+            <td id="savings">$342223</td>
           </tr>
           <tr>
             <td>7</td>
@@ -410,21 +415,18 @@
             <td>8</td>
             <td>Speed</td>
             <td>$54</td>
-            <td>26/140</td>
+            <td id="coat">26/140</td>
           </tr>
           <tr>
             <td colspan="3">
-              Time remaining: <span id="remainingTime"></span>days
+              Time remaining: <span id="remainingTime"></span> days
             </td>
-
-            <td>Gun</td>
+            <td id="gun">Gun</td>
           </tr>
         </tbody>
       </table>
       <footer>
-        <button onclick="sellInfoBtn()">
-          Sell
-        </button>
+        <button onclick="sellInfoBtn()">Sell</button>
         <button onclick="jet()">
           Jet
         </button>
@@ -454,8 +456,8 @@
             <text
               fill="#000"
               font-size="45"
-              x="12"
-              y="37"
+              x="23"
+              y="35"
               style="font-size:45px"
             >
               i
@@ -668,18 +670,23 @@
       var player = {};
       var remainingTime = 30;
       var cityName = 'Bronx';
+      var isCheat = false;
 
       // UI control variables
       var mainWindow = document.getElementById('mainWindow');
       var alertWindow = document.getElementById('alertWindow');
       var overlay = document.getElementById('overlay');
-      var remainingTimeCtrl = document.getElementById('remainingTime');
       var alertMessage = document.getElementById('alertMessage');
-      var sellBtn = document.getElementById('sellBtn');
-      var jetBtn = document.getElementById('jetBtn');
-      var buyBtn = document.getElementById('buyBtn');
       var tblMain = document.getElementById('tblMain');
       var tblJet = document.getElementById('tblJet');
+
+      // UI numbers
+      var remainingTimeCtrl = document.getElementById('remainingTime');
+      var cashCtrl = document.getElementById('cash');
+      var debtCtrl = document.getElementById('debt');
+      var savingsCtrl = document.getElementById('savings');
+      var coatCtrl = document.getElementById('coat');
+      var gunCtrl = document.getElementById('gun');
 
       var showAlert = function(title, message, actions) {
         alertWindow.style.visibility = 'visible';
@@ -745,7 +752,6 @@
       }
 
       function checkGameTime() {
-        remainingTimeCtrl.innerHTML = remainingTime;
         if (remainingTime <= 0) {
           gameOver();
           return true;
@@ -761,6 +767,7 @@
       }
 
       function restartGame() {
+        isCheat = false;
         hideAlert();
         jet();
 
@@ -771,8 +778,10 @@
         player.savings = 0;
         player.coat = 100;
         player.gun = 0;
+        player.cops = 1;
 
-        remainingTimeCtrl.innerHTML = remainingTime;
+        checkGameTime();
+        refreshUI();
       }
 
       function generateCity(cityId) {
@@ -796,6 +805,8 @@
             checkDeals();
           }
         }
+
+        refreshUI();
       }
 
       function checkDeals() {
@@ -808,11 +819,11 @@
       }
 
       function recalcDebt() {
-        player.debt *= 0.995;
+        player.debt *= 1.065;
       }
 
       function recalcSavings() {
-        player.savings *= 1.065;
+        player.savings *= 0.995;
       }
 
       function sellInfoBtn() {
@@ -892,6 +903,49 @@
       function openMainWindowBack() {
         closeAllWindows();
         mainWindow.style.display = 'block';
+      }
+
+      function setCheat(id) {
+        isCheat = true;
+        switch (id) {
+          case 0:
+            player.cash += 1000000;
+            break;
+          case 1:
+            player.gun = 1;
+            break;
+          case 2:
+            player.cops = 0;
+            break;
+          case 3:
+            player.debt = 0;
+            break;
+          case 4:
+            player.coat = 1000;
+            break;
+          case 5:
+            remainingTime += 60;
+            break;
+          case 6:
+            remainingTime += 90;
+            break;
+          case 7:
+            remainingTime += 365;
+            break;
+        }
+        remainingTime = remainingTime > 999 ? 999 : remainingTime;
+        checkGameTime();
+
+        refreshUI();
+      }
+
+      function refreshUI() {
+        remainingTimeCtrl.innerHTML = remainingTime;
+        cashCtrl.innerHTML = '$' + parseInt(player.cash);
+        debtCtrl.innerHTML = '$' + parseInt(player.debt);
+        savingsCtrl.innerHTML = '$' + player.savings;
+        coatCtrl.innerHTML = '0' + '/' + player.coat;
+        gunCtrl.innerHTML = player.gun ? 'gun' : '';
       }
     </script>
   </body>
