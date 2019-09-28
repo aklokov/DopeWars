@@ -280,6 +280,10 @@
         align-items: center;
       }
 
+      #jetWindow.new p,
+      #jetWindow.new footer {
+        display: none;
+      }
       #jetWindow table {
         width: 50%;
       }
@@ -666,15 +670,18 @@
 
     <script>
       //UI setting variable
+      var isNewGameFlag = true;
       var score = {};
       var player = {};
       var remainingTime = 30;
       var cityName = 'Bronx';
       var isCheat = false;
+      var drugPrices = [0, 0, 0, 0, 0, 0, 0, 0];
 
       // UI control variables
       var mainWindow = document.getElementById('mainWindow');
       var alertWindow = document.getElementById('alertWindow');
+      var jetWindow = document.getElementById('jetWindow');
       var overlay = document.getElementById('overlay');
       var alertMessage = document.getElementById('alertMessage');
       var tblMain = document.getElementById('tblMain');
@@ -747,7 +754,6 @@
 
       function jet() {
         closeAllWindows();
-        var jetWindow = document.getElementById('jetWindow');
         jetWindow.style.display = 'flex';
       }
 
@@ -760,35 +766,89 @@
       }
 
       function gameOver() {
-        alert('game over');
-        //show alert
-        //save score
+        //recalc all money
+        player.cash += player.savings - player.debt;
+        player.savings = 0;
+        player.debt = 0;
+        for (var i = 0; i < 8; i++) {
+          player.cash += player.drugs[i] * drugPrices[i];
+          player.drugs[i] = 0;
+        }
+
+        //TODO: generate score
+        saveScore(score);
+
+        //TODO: show alert
+        var message1 = '';
+        var message2 = '';
+        if ((player.cops = -1)) {
+          message1 = "You're dead.";
+          message2 = 'Congratulations.';
+        } else if (player.cash < 0) {
+          message1 = "The Loan Shark's thugs broke your";
+          message2 = 'legs.';
+        } else if (player.cash >= 1000000) {
+          message1 = 'You retired a millionaire in the';
+          message2 = 'Carribbean.';
+        } else if (player.cash > 2000) {
+          message1 = 'Congratulations!';
+          message2 = "You didn't do half bad.";
+        } else {
+          message1 = "You didn't make any money!";
+          message2 = 'Better luck next time.';
+        }
+        alert('game over, you earned:' + message1 + message2);
+
         restartGame();
       }
 
       function restartGame() {
+        isNewGameFlag = true;
         isCheat = false;
         hideAlert();
         jet();
 
-        remainingTime = 30;
-        city = generateCity(0);
+        remainingTime = 3;
+        drugPrices = generateCity(3);
         player.cash = 2000;
         player.debt = 5500;
         player.savings = 0;
         player.coat = 100;
         player.gun = 0;
-        player.cops = 1;
+        player.cops = 3;
+        player.drugs = [];
+        for (i = 0; i < 8; i++) {
+          player.drugs.push(0);
+        }
 
         checkGameTime();
         refreshUI();
       }
 
-      function generateCity(cityId) {
-        return [0, 0, 0, 0, 0, 0];
+      function SysRandom() {
+        return Math.floor(Math.random() * Math.floor(32767));
+      }
+
+      function generateCity(leaveout) {
+        var drugPrices = Array(8);
+
+        drugPrices[0] = 1000 + (SysRandom() % 3500);
+        drugPrices[1] = 15000 + (SysRandom() % 15000);
+        drugPrices[2] = 10 + (SysRandom() % 50);
+        drugPrices[3] = 1000 + (SysRandom() % 2500);
+        drugPrices[4] = 5000 + (SysRandom() % 9000);
+        drugPrices[5] = 300 + (SysRandom() % 600);
+        drugPrices[6] = 600 + (SysRandom() % 750);
+        drugPrices[7] = 70 + (SysRandom() % 180);
+
+        for (var i = 0; i < leaveout; i++) {
+          drugPrices[SysRandom() % 8] = 0;
+        }
+        return drugPrices;
       }
 
       function haveJet(cityId, _cityName) {
+        isNewGameFlag = false;
         cityName = _cityName;
         cityNames = document.getElementsByClassName('cityName');
         for (var i = 0; i < cityNames.length; i++) {
@@ -798,7 +858,7 @@
         openMainWindowBack();
         remainingTime--;
         if (!!!checkGameTime()) {
-          city = generateCity(cityId);
+          drugPrices = generateCity(cityId);
           recalcDebt();
           recalcSavings();
           if (!!!checkCops()) {
@@ -819,11 +879,13 @@
       }
 
       function recalcDebt() {
-        player.debt *= 1.065;
+        if (remainingTime < 31) {
+          player.debt += player.debt >> 3;
+        }
       }
 
       function recalcSavings() {
-        player.savings *= 0.995;
+        player.savings += player.savings >> 4;
       }
 
       function sellInfoBtn() {
@@ -882,7 +944,11 @@
       }
 
       function getScore() {
-        score = localStorage.getItem('score');
+        c = localStorage.getItem('score');
+      }
+
+      function saveScore(score) {
+        localStorage.setItem('score', score);
       }
 
       function closeAllWindows() {
@@ -909,7 +975,7 @@
         isCheat = true;
         switch (id) {
           case 0:
-            player.cash += 1000000;
+            player.cash += 10000000;
             break;
           case 1:
             player.gun = 1;
@@ -921,7 +987,7 @@
             player.debt = 0;
             break;
           case 4:
-            player.coat = 1000;
+            player.coat = 999;
             break;
           case 5:
             remainingTime += 60;
@@ -946,6 +1012,18 @@
         savingsCtrl.innerHTML = '$' + player.savings;
         coatCtrl.innerHTML = '0' + '/' + player.coat;
         gunCtrl.innerHTML = player.gun ? 'gun' : '';
+
+        jetWindow.classList.toggle('new', isNewGameFlag);
+
+        if (tblMain != null) {
+          for (var i = 0; i < tblMain.rows.length - 1; i++) {
+            tblMain.rows[i].cells[0].innerHTML = player.drugs[i];
+
+            tblMain.rows[i].cells[2].innerHTML = drugPrices[i]
+              ? '$' + drugPrices[i]
+              : 'None';
+          }
+        }
       }
     </script>
   </body>
