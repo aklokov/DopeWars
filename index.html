@@ -228,6 +228,7 @@
         border: 0px solid #000;
         border-top-width: 2px;
         flex-direction: column;
+        visibility: hidden;
       }
 
       #alertWindow > div {
@@ -243,8 +244,15 @@
         width: 80px;
       }
 
-      #alertWindow {
-        visibility: hidden;
+      #alertWindow:not(.info) svg {
+        display: none;
+      }
+      #alertWindow.info img,
+      #alertWindow.info input {
+        display: none;
+      }
+      #alertWindow input {
+        width: 50px;
       }
 
       #overlay {
@@ -441,14 +449,16 @@
 
       <div id="overlay"></div>
       <div id="alertWindow">
-        <header><span>Alert</span></header>
+        <header>
+          <span>Alert</span>
+          <img
+            alt="info tip"
+            onclick="openTips(0)"
+            src="data:image/bmp;base64,Qk1wAAAAAAAAAD4AAAAoAAAADAAAAAwAAAABAAEAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////AAAAAACAEAAAH4AAADDAAAB54AAAeeAAAHngAABx4AAAf+AAAHngAAA5wAAAH4AAAIAQAAAAAA=="
+          />
+        </header>
         <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="50"
-            height="50"
-            style="display:inline"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
             <circle
               cx="25"
               cy="25"
@@ -468,6 +478,7 @@
             </text>
           </svg>
           <span id="alertMessage"> </span>
+          <input type="number" />
         </div>
         <footer></footer>
       </div>
@@ -695,10 +706,25 @@
       var coatCtrl = document.getElementById('coat');
       var gunCtrl = document.getElementById('gun');
 
-      var showAlert = function(title, message, actions) {
+      function showAlert(title, message, actions, infoIndex) {
+        if (infoIndex === undefined) {
+          infoIndex = -1;
+        }
         alertWindow.style.visibility = 'visible';
         overlay.style.visibility = 'visible';
         alertMessage.innerHTML = message;
+
+        var header = alertWindow.getElementsByTagName('header')[0];
+        var headerTitle = header.getElementsByTagName('span')[0];
+        headerTitle.innerHTML = title;
+
+        if (infoIndex >= 0) {
+          var headerIcon = header.getElementsByTagName('img')[0];
+          headerIcon.onclick = function() {
+            openTips(infoIndex);
+          };
+        }
+        alertWindow.classList.toggle('info', infoIndex < 0);
 
         var footer = alertWindow.getElementsByTagName('footer')[0];
         var numOfButtons = footer.childNodes.length;
@@ -710,14 +736,18 @@
           var act = actions[i];
           var btn = document.createElement('BUTTON');
           btn.innerHTML = act.text;
-          btn.onclick = act.action;
+          (function(action, param) {
+            btn.onclick = function() {
+              action.call(this, param);
+            };
+          })(act.action, act.param);
           footer.appendChild(btn);
         }
-      };
-      var hideAlert = function() {
+      }
+      function hideAlert() {
         alertWindow.style.visibility = 'hidden';
         overlay.style.visibility = 'hidden';
-      };
+      }
 
       //START NEW GAME with init
       restartGame();
@@ -725,12 +755,14 @@
       //set click handlers
       if (tblMain != null) {
         for (var i = 0; i < tblMain.rows.length - 1; i++) {
-          tblMain.rows[i].cells[0].onclick = function() {
-            sell(this);
-          };
-          tblMain.rows[i].cells[2].onclick = function() {
-            buy(this);
-          };
+          (function(_i) {
+            tblMain.rows[_i].cells[0].onclick = function() {
+              sell(_i, tblMain.rows[_i].cells[1].innerHTML);
+            };
+            tblMain.rows[_i].cells[2].onclick = function() {
+              buy(_i, tblMain.rows[_i].cells[1].innerHTML);
+            };
+          })(i);
         }
       }
       if (tblJet != null) {
@@ -744,12 +776,72 @@
         }
       }
 
-      function sell(cel) {
-        alert('sell:' + cel.innerHTML);
+      function setInput(value) {
+        var input = alertWindow.getElementsByTagName('INPUT')[0];
+        input.value = value;
       }
 
-      function buy(cel) {
-        alert('buy' + cel.innerHTML);
+      function sell(index, drugName) {
+        if (player.drugs[index] <= 0) {
+          showAlert('Sell Drugs', 'You do not have any of that drug to sell.', [
+            { text: 'OK', action: hideAlert }
+          ]);
+        } else {
+          showAlert(
+            'Sell ' + drugName,
+            'You can sell up to ' +
+              player.drugs[index] +
+              ' at $' +
+              drugPrices[index] +
+              ' each.<br>' +
+              'How many do you want to sell?',
+            [
+              { text: 'OK', action: undefined },
+              { text: 'Max', action: setInput, param: player.drugs[index] },
+              { text: 'Cancel', action: hideAlert }
+            ],
+            1 //info index
+          );
+        }
+      }
+
+      function getMaxValueCanAfford(afford) {
+        return 1;
+      }
+
+      function buy(index, drugName) {
+        if (drugPrices[index] <= 0) {
+          showAlert('Buy Drugs', 'Nobody is selling that drug here.', [
+            { text: 'OK', action: hideAlert }
+          ]);
+        } else {
+          var canAfford = parseInt(player.cash / drugPrices[index]);
+          if (canAfford > 0) {
+            var canAffordText = canAfford < 1000 ? canAfford : 'a lot.';
+            showAlert(
+              'Buy ' + drugName,
+              'At $' +
+                drugPrices[index] +
+                ' each, you can afford ' +
+                canAffordText +
+                '<br>How many do you want to buy?',
+              [
+                { text: 'OK', action: undefined },
+                {
+                  text: 'Max',
+                  action: setInput,
+                  param: getMaxValueCanAfford(canAfford)
+                },
+                { text: 'Cancel', action: hideAlert }
+              ],
+              1 //info index
+            );
+          } else {
+            showAlert('Buy Drugs', 'You cannot afford any of that drug.', [
+              { text: 'OK', action: hideAlert }
+            ]);
+          }
+        }
       }
 
       function jet() {
