@@ -77,13 +77,11 @@
       }
 
       nav > ul > li > div ul > li {
-        
         display: block;
       }
-      nav > ul > li > div ul > li.menuSeporator{
+      nav > ul > li > div ul > li.menuSeporator {
         border-top: 1px dashed black;
       }
-      
 
       nav > ul > li > div ul > li > a {
         display: block;
@@ -186,7 +184,7 @@
       }
 
       #alertWindow {
-        height: 150px;
+        max-height: 150px;
         width: 320px;
         display: flex;
         position: absolute;
@@ -199,6 +197,10 @@
 
       #alertWindow > div {
         flex: 1;
+        margin: 5px;
+      }
+      #alertWindow > div > svg {
+        float: left;
         margin: 5px;
       }
 
@@ -219,17 +221,19 @@
         height: 100%;
       }
 
-      #introWindow{
+      #introWindow {
         flex-direction: row;
       }
-      #introWindow img{
-        width:calc(67px * 2);
-        height:calc(150px * 2);
+      #introWindow img {
+        width: calc(67px * 2);
+        height: calc(150px * 2);
         filter: invert(1);
         flex: none;
-        margin:10px;
+        margin: 10px;
       }
-      #introWindow h4{font-size: 18px}
+      #introWindow h4 {
+        font-size: 18px;
+      }
 
       section {
         /* display: none; */
@@ -249,8 +253,12 @@
           <div>
             <ul>
               <li><a href="#" onclick="newGame()">New Game</a></li>
-              <li><a href="products.html#table">View High Scores</a></li>
-              <li><a href="cooker.html">Verify High Scores</a></li>
+              <li>
+                <a href="#" onclick="alert('to be done')">View High Scores</a>
+              </li>
+              <li>
+                <a href="#" onclick="alert('to be done')">Verify High Scores</a>
+              </li>
               <li><a href="#" onclick="clearScore()">Clear High Scores</a></li>
             </ul>
           </div>
@@ -283,7 +291,9 @@
                 <a href="#" onclick="setCheat(2)">No More Cops</a>
               </li>
               <li><a href="#" onclick="setCheat(3)">No More Debt</a></li>
-              <li class="menuSeporator"><a href="#" onclick="setCheat(4)">Huge Coat</a></li>
+              <li class="menuSeporator">
+                <a href="#" onclick="setCheat(4)">Huge Coat</a>
+              </li>
               <li><a href="#" onclick="setCheat(5)">60 Day Game</a></li>
               <li><a href="#" onclick="setCheat(6)">90 Day Game</a></li>
               <li><a href="#" onclick="setCheat(7)">Year-Long Game</a></li>
@@ -358,20 +368,22 @@
             <td>26/140</td>
           </tr>
           <tr>
-            <td colspan="3">Time remaining: XXdays</td>
+            <td colspan="3">
+              Time remaining: <span id="remainingTime"></span>days
+            </td>
 
             <td>Gun</td>
           </tr>
         </tbody>
       </table>
       <footer>
-        <button id="sellBtn">
+        <button onclick="sellInfoBtn()">
           Sell
         </button>
-        <button id="jetBtn">
+        <button onclick="jet()">
           Jet
         </button>
-        <button id="buyBtn">
+        <button onclick="buyInfoBtn()">
           Buy
         </button>
       </footer>
@@ -404,13 +416,9 @@
               i
             </text>
           </svg>
-          <span id="alertMessage">
-            content content content contentcontent content content content
-            content
-          </span>
+          <span id="alertMessage"> </span>
         </div>
-        <footer>
-        </footer>
+        <footer></footer>
       </div>
     </div>
 
@@ -443,58 +451,96 @@
         </p>
       </section>
       <section #1>
-          <p>DopeWars is a game where the objective is to get rich through buying and  
-          selling drugs.  There are 8 types of drugs and 6 locations; at each  
-          location, 5 to 7 drugs will be commodities.</p> 
-          <p>At the beginning of the game, you have a small amount of cash, an empty  
-          savings account, and a sizeable debt to a loan shark.  In addition to  
-          money troubles, Officer Hardass patrols the streets, hell-bent on  
-          taking you down.</p> 
-          <p>For additional help, tap the Info button in dialogs, or read the  
-          README file that came with this program.</p>
-          <p></p>This program is distributed free of charge with source code available.</p> 
-          <p>Cheat Codes:</p> 
-          <p>To activate cheat codes, use the Cheat menu</p>
-          <p>Note that if any of these cheats are activated, you will not be able to  
-          save a high score for that game.</p>
+        <p>
+          DopeWars is a game where the objective is to get rich through buying
+          and selling drugs. There are 8 types of drugs and 6 locations; at each
+          location, 5 to 7 drugs will be commodities.
+        </p>
+        <p>
+          At the beginning of the game, you have a small amount of cash, an
+          empty savings account, and a sizeable debt to a loan shark. In
+          addition to money troubles, Officer Hardass patrols the streets,
+          hell-bent on taking you down.
+        </p>
+        <p>
+          For additional help, tap the Info button in dialogs, or read the
+          README file that came with this program.
+        </p>
+        <p>
+          This program is distributed free of charge with source code available.
+        </p>
+        <p>Cheat Codes:</p>
+        <p>To activate cheat codes, use the Cheat menu</p>
+        <p>
+          Note that if any of these cheats are activated, you will not be able
+          to save a high score for that game.
+        </p>
       </section>
       <section #2>
-          <p>Select a location to go there.  Each new location is a new day, so make 
-              the most of each location.  If you do not want to Jet, tap Cancel.<p>
-              </p>The Loan Shark and Bank are located in the Bronx.</p>
+        <p>
+          Select a location to go there. Each new location is a new day, so make
+          the most of each location. If you do not want to Jet, tap Cancel.
+        </p>
+        <p>The Loan Shark and Bank are located in the Bronx.</p>
       </section>
       <section #3>
-          <p>At the Loan Shark, you can repay debt or borrow money.  It is advisable  
-              to repay debt as soon as you are able, because the Loan Shark charges  
-              12.5% interest per day.  If you aren't able to pay back the Loan Shark  
-              by the end of the game, his thugs will most likely break your legs. </p><p> 
-              You start off the game with a $5500 debt to the Loan Shark. </p><p> 
-              The Loan Shark will only loan you an amount equal to thirty times your current  
-              cash or $5500, whichever is greater.  Additionally, you may only take out  
-              one loan a day. </p><p> 
-              The Loan Shark is located in the Bronx.</p>
+        <p>
+          At the Loan Shark, you can repay debt or borrow money. It is advisable
+          to repay debt as soon as you are able, because the Loan Shark charges
+          12.5% interest per day. If you aren't able to pay back the Loan Shark
+          by the end of the game, his thugs will most likely break your legs.
+        </p>
+        <p>
+          You start off the game with a $5500 debt to the Loan Shark.
+        </p>
+        <p>
+          The Loan Shark will only loan you an amount equal to thirty times your
+          current cash or $5500, whichever is greater. Additionally, you may
+          only take out one loan a day.
+        </p>
+        <p>
+          The Loan Shark is located in the Bronx.
+        </p>
       </section>
       <section #4>
-          <p>At the Bank, you can withdraw or deposit money into a savings account.</p><p>
-              Money in a savings account accrues 6.25% interest per day.</p><p>
-              The Bank is located in the Bronx.</p>
+        <p>
+          At the Bank, you can withdraw or deposit money into a savings account.
+        </p>
+        <p>
+          Money in a savings account accrues 6.25% interest per day.
+        </p>
+        <p>
+          The Bank is located in the Bronx.
+        </p>
       </section>
       <section #5>
-          <p>When you run into the cops, you have two options: Run or Fight.</p><p>
-              You can only fight if you have a gun.  During the game, you may have the 
-              opportunity to buy a gun.</p><p>
-              If you run, it is unlikely that the cops will catch you; but if they do, 
-              they will seize all your drugs and half of your cash.</p><p>
-              If you fight, you have the chance of killing off the cops, and not be 
-              bothered for the rest of the game.  However, if you fight the cops, it is 
-              fairly likely that you will be wounded and caught, and you might even be 
-              killed.  It's the risk you have to take if you decide to protect your livelihood.</p><p>
-              The cops will not chase you if your coat is empty.</p>
+        <p>When you run into the cops, you have two options: Run or Fight.</p>
+        <p>
+          You can only fight if you have a gun. During the game, you may have
+          the opportunity to buy a gun.
+        </p>
+        <p>
+          If you run, it is unlikely that the cops will catch you; but if they
+          do, they will seize all your drugs and half of your cash.
+        </p>
+        <p>
+          If you fight, you have the chance of killing off the cops, and not be
+          bothered for the rest of the game. However, if you fight the cops, it
+          is fairly likely that you will be wounded and caught, and you might
+          even be killed. It's the risk you have to take if you decide to
+          protect your livelihood.
+        </p>
+        <p>
+          The cops will not chase you if your coat is empty.
+        </p>
       </section>
       <section #6>
-          <p>To submit your high scores, go to the DopeWars Hall of Fame at http://dopewars.cjb.net. 
-              Enter the information from the Verify High Scores dialog box into the web form, and you will 
-              be placed on the high score list.</p>
+        <p>
+          To submit your high scores, go to the DopeWars Hall of Fame at
+          http://dopewars.cjb.net. Enter the information from the Verify High
+          Scores dialog box into the web form, and you will be placed on the
+          high score list.
+        </p>
       </section>
       <footer>
         <button onclick="openMainWindowBack()">
@@ -504,43 +550,87 @@
     </div>
 
     <div id="introWindow">
-        <img
+      <img
         src="data:image/bmp;base64,Qk1IBwAAAAAAAD4AAAAoAAAAQwAAAJYAAAABAAEAAAAAAAAAAAAQFwAAEBcAAAAAAAAAAAAA////AAAAAAD///8Af////+AAAAD///gOP////+AAAAD//+H/vAf//+AAAAD//gfggAP//+AAAAD//B8AB/n//+AAAAD/+Hw/P/3//+AAAAD/+fn+fAH//+AAAAD/8/P44PH//+AAAAD/8+fjx/P//+AAAAD/8AfPH8f//+AAAAD/8/AXfx///+AAAAD/9/+AfH///+AAAAD/9/+fAf///+AAAAD/9/+f+f///+AAAAD/9/+f+f///+AAAAD/9/+/+f///+AAAAD/9/+/+f///+AAAAD/9/+/+f///+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/+/+////+AAAAD/9/8D8////+AAAAD/9/AAAP///+AAAAD/9gP/9v///+AAAAD/8P///v///+AAAAD/x////v//8AAAAAD/P////v/8AMAAAAD/f////P/g/8AAAAD/f////P4P/8AAAAD/f////AD//4AAAAD/P////D///4AAAAD/P////f///4AAAAD/P////f///4AAAAD/P////f///4AAAAD/v////f///4AAAAD/v////f///4AAAAD/v///+f///6AAAAD/v///+f///6AAAAD/P///+f///6AAAAD/P///+f///6AAAAD/v///+////6AAAAD/P///+////6AAAAD/P///+////6AAAAD/P//5+///D6AAAAD/P//h8//OZ6AAAAD/P//N8+OGA6AAAAD/P//t88EAc6AAAAD/P//t84B486AAAAD/P//s85x486AAAAD/P//s85x4A6AAAAD/P//m85AAB6AAAAD/P//m84AGB6AAAAD/P//288GGB6AAAAD/P//2c8EDDyAAAAD/P//2c8GH/yAAAAD/P//zc//HDyAAAAD/P//zd8GCByAAAAD/N//7d5kA9yAAAAD/O//7d4A49yAAAAD/Of/7Nzx49yAAAAD/MP/7Nzx4ByAAAAD/Nn/7NzwADyAAAAD/J3/7NwCCDyAAAAD/Lz/7N4GCDyAAAAD/D7/7N4GCDyAAAAD/H5/7N4HH/yAAAAD/P9/7d/f/HyAAAAD/P8/zd/+GTyAAAAD+f+/2d8EyByAAAAD+/+fmc8kAZyAAAAD8/+fu88B45yAAAAD9/8fM85x452AAAAD5/5ed85x4B2AAAADz/zg585wAD2AAAAD3/ntz84ACD2AAAADn/uNn84ECD2AAAADv/ItP88ED/2AAAADf+Hk/88H/DWAAAACf+fk/9//+ZSAAAAC/88B/9+OGBSAAAAA/9h3/98EA8CAAAAB/8P//94B48iAAAAB/4///95x48iAAAAB/5///95x4AiAAAAB/7///95QABiAAAAB/7///94EGBiAAAAB/5///98EGBCAAAAB/9///88EDDCAAAAA/9///88GH/CAAAAA/8///8+f/+CAAAAC/+///8///+IAAAAC/+/wH8///9kAAAAC/+fhx9///4QAAAAC//fv99///zIAAAACf/Pv99///xoAAAACf/Pv99///kyAAAADf/vv99///mSAAAADf/nv95//+DGAAAADf/nv95//4ImAAAADP/3mN7//g2OAAAADP/3AB7/8Rn+AAAADv/3eJz/xnP+AAAADv/zfZz/+Of+AAAADv/zH5x/4+/+AAAADn/zADh/z9/+AAAADn/3//p/v5/+AAAAD3/3//p//z/+AAAADz/n//J//n/+AAAAD7/v//Z//v/+AAAAD5/P//b//P/+AAAAD8Cf/+T/+f/+AAAAD8Y//+z/+//+AAAAD+cf/+n/8//+AAAAD/HP/8v/9//+AAAAD/hn/8f/5//+AAAAD/45/8//7//+AAAAD/+M/8//z//+AAAAD//gn9//3//+AAAAD//wf4P/n//+AAAAD//4eBnAP//+AAAAD//58P3f///+AAAAD//78/nP///+AAAAD//z+/nv///+AAAAD//3+4H3///+AAAAD//n+xnz///+AAAAD//v8gH7///+AAAAD//PgADn///+AAAAD//cPADP///+AAAAD/+R/zwf///+AAAAD/+D+Dh////+AAAAD/8CcBj////+AAAAD/8kcBB////+AAAAD/5kQAAH///+AAAAD/8AAH/n///+AAAAD//gH//P///+AAAAD//B4AAf///+AAAAD/+EAAB////+AAAAD/+AAAT////+AAAAD/8AD/3////+AAAAD/97//3////+AAAAD/8D//n////+AAAAD//L//v////+AAAAD//5//P////+AAAAD//5/+f////+AAAAD//9/g/////+AAAAD//8AH/////+AAAAAAAA=="
       />
       <div>
-      <section>
-        <h4>DopeWars</h4>
-        <p>Version 1.0</p>
-        <p>Compiled 9/27/2019</p>
-        <p>by Alexey Klokov</p>
-        <p>Based on DopeWars</p>
-        <p>by Matthew Lee and Michael Hallett</p>
-        <p>Initially based on Drug Wars</p>
-        <p>by John E. Dell</p>
-      </section>
-      <footer>
+        <section>
+          <h4>DopeWars</h4>
+          <p>Version 1.0</p>
+          <p>Compiled 9/27/2019</p>
+          <p>by Alexey Klokov</p>
+          <p>Based on DopeWars</p>
+          <p>by Matthew Lee and Michael Hallett</p>
+          <p>Initially based on Drug Wars</p>
+          <p>by John E. Dell</p>
+        </section>
+        <footer>
           <button onclick="openMainWindowBack()">
             OK
           </button>
         </footer>
-        </div>
+      </div>
     </div>
 
-    <div id="jetWindow"></div>
+    <div id="jetWindow">
+      <header>
+        <span>Jet</span>
+        <img
+          onclick="openTips(2)"
+          src="data:image/bmp;base64,Qk1wAAAAAAAAAD4AAAAoAAAADAAAAAwAAAABAAEAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////AAAAAACAEAAAH4AAADDAAAB54AAAeeAAAHngAABx4AAAf+AAAHngAAA5wAAAH4AAAIAQAAAAAA=="
+        />
+      </header>
+      <h2>Where to, dude?</h2>
+      <table id="tblJet">
+        <tbody>
+          <tr>
+            <td>Bronx</td>
+          </tr>
+          <tr>
+            <td>Ghetto</td>
+          </tr>
+          <tr>
+            <td>Central Park</td>
+          </tr>
+          <tr>
+            <td>Manhattan</td>
+          </tr>
+          <tr>
+            <td>Coney Island</td>
+          </tr>
+          <tr>
+            <td>Brooklyn</td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      Current location: CITY NAME
+      <footer>
+        <button onclick="openMainWindowBack()">
+          Cancel
+        </button>
+      </footer>
+    </div>
 
-    
     <script>
       var score = {};
+      var player = {};
+      var remainingTime = 30;
+
       var mainWindow = document.getElementById('mainWindow');
       var alertWindow = document.getElementById('alertWindow');
       var overlay = document.getElementById('overlay');
+      var remainingTimeCtrl = document.getElementById('remainingTime');
 
       var alertMessage = document.getElementById('alertMessage');
-  ;
+
       var sellBtn = document.getElementById('sellBtn');
       var jetBtn = document.getElementById('jetBtn');
       var buyBtn = document.getElementById('buyBtn');
-      var tbl = document.getElementById('tblMain');
+      var tblMain = document.getElementById('tblMain');
+      var tblJet = document.getElementById('tblJet');
 
       var showAlert = function(title, message, actions) {
         alertWindow.style.visibility = 'visible';
@@ -548,33 +638,42 @@
         alertMessage.innerHTML = message;
 
         var footer = alertWindow.getElementsByTagName('footer')[0];
-        var numOfButtons = footer.childNodes.length
-        for(var i=0;i<numOfButtons;i++){
+        var numOfButtons = footer.childNodes.length;
+        for (var i = 0; i < numOfButtons; i++) {
           footer.removeChild(footer.childNodes[0]);
         }
 
-        for(var i=0; i<actions.length;i++){
+        for (var i = 0; i < actions.length; i++) {
           var act = actions[i];
-          var btn = document.createElement("BUTTON");
+          var btn = document.createElement('BUTTON');
           btn.innerHTML = act.text;
           btn.onclick = act.action;
           footer.appendChild(btn);
         }
-
       };
       var hideAlert = function() {
         alertWindow.style.visibility = 'hidden';
         overlay.style.visibility = 'hidden';
       };
 
+      //START NEW GAME with init
+      restartGame();
+
       //set click handlers
-      if (tbl != null) {
-        for (var i = 0; i < tbl.rows.length - 1; i++) {
-          tbl.rows[i].cells[0].onclick = function() {
+      if (tblMain != null) {
+        for (var i = 0; i < tblMain.rows.length - 1; i++) {
+          tblMain.rows[i].cells[0].onclick = function() {
             sell(this);
           };
-          tbl.rows[i].cells[2].onclick = function() {
+          tblMain.rows[i].cells[2].onclick = function() {
             buy(this);
+          };
+        }
+      }
+      if (tblJet != null) {
+        for (var i = 0; i < tblJet.rows.length - 1; i++) {
+          tblJet.rows[i].cells[0].onclick = function() {
+            haveJet(i);
           };
         }
       }
@@ -586,66 +685,154 @@
       function buy(cel) {
         alert('buy' + cel.innerHTML);
       }
-      sellBtn.onclick = function() {
-        showAlert('Sell','Tap the entries in the quantity column (1st column) to sell drugs.',[{text:'OK',action:hideAlert}]);
-      };
-      buyBtn.onclick = function() {
-        showAlert('Buy','Tap the entries in the prices column (3rd column) to buy drugs.',[{text:'OK',action:hideAlert}]);
-      };
+
+      function jet() {
+        closeAllWindows();
+        var jetWindow = document.getElementById('jetWindow');
+        jetWindow.style.display = 'flex';
+      }
+
+      function checkGameTime() {
+        remainingTimeCtrl.innerHTML = remainingTime;
+        if (remainingTime <= 0) {
+          gameOver();
+          return true;
+        }
+        return false;
+      }
+
+      function gameOver() {
+        alert('game over');
+        //show alert
+        //save score
+        restartGame();
+      }
+
+      function restartGame() {
+        openMainWindowBack();
+        hideAlert();
+
+        remainingTime = 3;
+        city = generateCity(0);
+        player.cash = 3000;
+        player.debt = 3000;
+        player.savings = 0;
+        player.coat = 100;
+        player.gun = 0;
+
+        remainingTimeCtrl.innerHTML = remainingTime;
+      }
+
+      function generateCity(cityId) {
+        return [0, 0, 0, 0, 0, 0];
+      }
+
+      function haveJet(cityId) {
+        openMainWindowBack();
+        remainingTime--;
+        if (!!!checkGameTime()) {
+          city = generateCity(cityId);
+          recalcDebt();
+          recalcSavings();
+          if (!!!checkCops()) {
+            checkDeals();
+          }
+        }
+      }
+
+      function checkDeals() {
+        // show some deals
+      }
+
+      function checkCops() {
+        //check cops and show UI
+        return false;
+      }
+
+      function recalcDebt() {
+        player.debt *= 0.995;
+      }
+
+      function recalcSavings() {
+        player.savings *= 1.065;
+      }
+
+      function sellInfoBtn() {
+        showAlert(
+          'Sell',
+          'Tap the entries in the quantity column (1st column) to sell drugs.',
+          [{ text: 'OK', action: hideAlert }]
+        );
+      }
+      function buyInfoBtn() {
+        showAlert(
+          'Buy',
+          'Tap the entries in the prices column (3rd column) to buy drugs.',
+          [{ text: 'OK', action: hideAlert }]
+        );
+      }
 
       function openTips(tip) {
-        closeAllWindows()
+        closeAllWindows();
         // mainWindow.style.display = 'none';
         var tipsWindow = document.getElementById('tipsWindow');
         tipsWindow.style.display = 'flex';
-        var content = tipsWindow.getElementsByTagName('section')
+        var content = tipsWindow.getElementsByTagName('section');
         hideTipsContent(content);
         content[tip].style.display = 'block';
       }
 
-      function hideTipsContent(content){
-        for(var i=0;i<content.length;i++){
+      function hideTipsContent(content) {
+        for (var i = 0; i < content.length; i++) {
           content[i].style.display = 'none';
         }
       }
 
-      function newGame(){
-        showAlert('New Game','Are you sure you want to start a new game?',
-              [{text:'No', action:hideAlert}, {text:'Yes', action:undefined}]);
+      function newGame() {
+        showAlert('New Game', 'Are you sure you want to start a new game?', [
+          { text: 'No', action: hideAlert },
+          { text: 'Yes', action: restartGame }
+        ]);
       }
 
-      function clearScore(){
-        showAlert('Clear High Scores','Are you sure you want to clear the high scores list?',
-              [{text:'No', action:hideAlert}, {text:'Yes', action:clearTheScore}]);
+      function clearScore() {
+        showAlert(
+          'Clear High Scores',
+          'Are you sure you want to clear the high scores list?',
+          [
+            { text: 'No', action: hideAlert },
+            { text: 'Yes', action: clearTheScore }
+          ]
+        );
       }
 
-      function clearTheScore(){
-        localStorage.removeItem("score");
+      function clearTheScore() {
+        localStorage.removeItem('score');
         getScore();
         hideAlert();
       }
-      
-      function getScore(){
-        score = localStorage.getItem("score")
+
+      function getScore() {
+        score = localStorage.getItem('score');
       }
 
-      function closeAllWindows(){
+      function closeAllWindows() {
         var windows = document.body.children;
-        for(var i=0; i< windows.length; i++){
-          if(windows[i].tagName === 'DIV'){
+        for (var i = 0; i < windows.length; i++) {
+          if (windows[i].tagName === 'DIV') {
             windows[i].style.display = 'none';
           }
         }
       }
 
-      function showIntro(){
-        closeAllWindows()
+      function showIntro() {
+        closeAllWindows();
         var introWindow = document.getElementById('introWindow');
         introWindow.style.display = 'flex';
       }
 
-      function openMainWindowBack(){
-        closeAllWindows()
+      function openMainWindowBack() {
+        closeAllWindows();
         mainWindow.style.display = 'block';
       }
     </script>
