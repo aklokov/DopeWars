@@ -51,13 +51,13 @@
         color: black;
       }
 
-      nav > ul > li:hover {
+      nav > ul > li:hover, nav > ul > li:focus {
         background-color: darkblue;
 
         /* color: black; */
       }
 
-      nav > ul > li:hover > a {
+      nav > ul > li:hover > a, nav > ul > li:focus > a {
         color: white;
       }
 
@@ -72,7 +72,7 @@
         z-index: 100;
       }
 
-      nav > ul > li:hover > div {
+      nav > ul > li:hover > div, nav > ul > li:focus > div {
         display: block;
       }
 
@@ -90,7 +90,7 @@
         color: #000;
       }
 
-      nav > ul > li > div ul > li:hover > a {
+      nav > ul > li > div ul > li:hover > a, nav > ul > li > div ul > li:focus > a {
         background-color: darkblue;
         color: white;
       }
@@ -305,7 +305,7 @@
     <!-- main screen -->
     <div id="mainWindow">
       <header>
-        <span> City name</span>
+        <span class="cityName"></span>
         <img
           onclick="openTips(0)"
           src="data:image/bmp;base64,Qk1wAAAAAAAAAD4AAAAoAAAADAAAAAwAAAABAAEAAAAAAAAAAAASCwAAEgsAAAAAAAAAAAAA////AAAAAACAEAAAH4AAADDAAAB54AAAeeAAAHngAABx4AAAf+AAAHngAAA5wAAAH4AAAIAQAAAAAA=="
@@ -606,7 +606,7 @@
           </tr>
         </tbody>
       </table>
-      Current location: CITY NAME
+      Current location: <span class="cityName"></span>
       <footer>
         <button onclick="openMainWindowBack()">
           Cancel
@@ -615,17 +615,18 @@
     </div>
 
     <script>
+      //UI setting variable
       var score = {};
       var player = {};
       var remainingTime = 30;
+      var cityName = 'Bronx';
 
+      // UI control variables
       var mainWindow = document.getElementById('mainWindow');
       var alertWindow = document.getElementById('alertWindow');
       var overlay = document.getElementById('overlay');
       var remainingTimeCtrl = document.getElementById('remainingTime');
-
       var alertMessage = document.getElementById('alertMessage');
-
       var sellBtn = document.getElementById('sellBtn');
       var jetBtn = document.getElementById('jetBtn');
       var buyBtn = document.getElementById('buyBtn');
@@ -672,9 +673,12 @@
       }
       if (tblJet != null) {
         for (var i = 0; i < tblJet.rows.length - 1; i++) {
-          tblJet.rows[i].cells[0].onclick = function() {
-            haveJet(i);
-          };
+          var _cityName = tblJet.rows[i].cells[0].innerHTML;
+          (function(_i, _newCityName) {
+            tblJet.rows[i].cells[0].onclick = function() {
+              haveJet(_i, _newCityName);
+            };
+          })(i, _cityName);
         }
       }
 
@@ -709,13 +713,13 @@
       }
 
       function restartGame() {
-        openMainWindowBack();
         hideAlert();
+        jet();
 
-        remainingTime = 3;
+        remainingTime = 30;
         city = generateCity(0);
-        player.cash = 3000;
-        player.debt = 3000;
+        player.cash = 2000;
+        player.debt = 5500;
         player.savings = 0;
         player.coat = 100;
         player.gun = 0;
@@ -727,7 +731,13 @@
         return [0, 0, 0, 0, 0, 0];
       }
 
-      function haveJet(cityId) {
+      function haveJet(cityId, _cityName) {
+        cityName = _cityName;
+        cityNames = document.getElementsByClassName('cityName');
+        for (var i = 0; i < cityNames.length; i++) {
+          cityNames[i].innerHTML = cityName;
+        }
+
         openMainWindowBack();
         remainingTime--;
         if (!!!checkGameTime()) {
