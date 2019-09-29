@@ -478,7 +478,7 @@
             </text>
           </svg>
           <span id="alertMessage"> </span>
-          <input type="number" />
+          <input type="number" min="0" max="999" />
         </div>
         <footer></footer>
       </div>
@@ -836,7 +836,7 @@
         if (totalDrugs >= player.coat) {
           return 0;
         } else {
-          return player.coat - totalDrugs;
+          return Math.min(player.coat - totalDrugs, afford);
         }
       }
 
