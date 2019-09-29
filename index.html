@@ -723,6 +723,7 @@
           headerIcon.onclick = function() {
             openTips(infoIndex);
           };
+          setInput();
         }
         alertWindow.classList.toggle('info', infoIndex < 0);
 
@@ -796,7 +797,11 @@
               ' each.<br>' +
               'How many do you want to sell?',
             [
-              { text: 'OK', action: undefined },
+              {
+                text: 'OK',
+                action: sellDrug,
+                param: { index: index, max: player.drugs[index] }
+              },
               { text: 'Max', action: setInput, param: player.drugs[index] },
               { text: 'Cancel', action: hideAlert }
             ],
@@ -805,8 +810,34 @@
         }
       }
 
+      function sellDrug(param) {
+        var input = alertWindow.getElementsByTagName('INPUT')[0];
+        //check value
+        var value = parseInt(input.value);
+        value = value < 0 || isNaN(value) ? 0 : value;
+
+        if (value > param.max) {
+          alert("you don't have these amount");
+        } else if (value == 0) {
+          alert('enterr value');
+        } else {
+          player.drugs[param.index] -= value;
+          player.cash += value * drugPrices[param.index];
+        }
+
+        hideAlert();
+        refreshUI();
+      }
+
       function getMaxValueCanAfford(afford) {
-        return 1;
+        var totalDrugs = player.drugs.reduce(function(a, b) {
+          return a + b;
+        });
+        if (totalDrugs >= player.coat) {
+          return 0;
+        } else {
+          return player.coat - totalDrugs;
+        }
       }
 
       function buy(index, drugName) {
@@ -818,6 +849,8 @@
           var canAfford = parseInt(player.cash / drugPrices[index]);
           if (canAfford > 0) {
             var canAffordText = canAfford < 1000 ? canAfford : 'a lot.';
+            var maxCanAfford = getMaxValueCanAfford(canAfford);
+
             showAlert(
               'Buy ' + drugName,
               'At $' +
@@ -826,11 +859,15 @@
                 canAffordText +
                 '<br>How many do you want to buy?',
               [
-                { text: 'OK', action: undefined },
+                {
+                  text: 'OK',
+                  action: buyDrug,
+                  param: { index: index, max: maxCanAfford }
+                },
                 {
                   text: 'Max',
                   action: setInput,
-                  param: getMaxValueCanAfford(canAfford)
+                  param: maxCanAfford
                 },
                 { text: 'Cancel', action: hideAlert }
               ],
@@ -842,6 +879,25 @@
             ]);
           }
         }
+      }
+
+      function buyDrug(param) {
+        var input = alertWindow.getElementsByTagName('INPUT')[0];
+        //check value
+        var value = parseInt(input.value);
+        value = value < 0 || isNaN(value) ? 0 : value;
+
+        if (value > param.max) {
+          alert("you don't have enough money");
+        } else if (value == 0) {
+          alert('enterr value');
+        } else {
+          player.drugs[param.index] += value;
+          player.cash -= value * drugPrices[param.index];
+        }
+
+        hideAlert();
+        refreshUI();
       }
 
       function jet() {
